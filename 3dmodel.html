@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D Model Rumah Adat Majene</title>
+
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+  <style>
+    body {
+      background-color: #0d1117;
+      color: #e5e5e5;
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 25px;
+      background-color: #00c8ff;
+      color: #0d1117;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    h1 {
+      margin-top: 80px;
+      color: #00c8ff;
+      border-bottom: 2px solid #00c8ff;
+      padding-bottom: 8px;
+      text-align: center;
+    }
+
+    .model-wrapper {
+      background-color: #161b22;
+      border-radius: 12px;
+      padding: 10px;
+      width: 90%;
+      max-width: 700px;
+      margin-bottom: 25px;
+    }
+
+    .model-container {
+      height: 400px;
+    }
+
+    model-viewer {
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      background-color: #0d1117;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 15px;
+      padding: 10px;
+      background-color: #21262d;
+      border-radius: 8px;
+    }
+
+    .control-group {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .btn-ctrl {
+      background-color: #30363d;
+      border: 1px solid #6e7681;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn-ctrl:hover {
+      background-color: #00c8ff;
+      color: #000;
+    }
+
+    .description-text {
+      width: 90%;
+      max-width: 700px;
+      text-align: justify;
+      line-height: 1.7;
+      color: #cfcfcf;
+      margin-bottom: 60px;
+    }
+
+    footer {
+      font-size: 0.85rem;
+      color: #888;
+      text-align: center;
+      padding: 15px;
+      width: 100%;
+      background-color: #0d1117;
+      position: fixed;
+      bottom: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <a href="index.html" class="back-button">← Kembali</a>
+
+  <h1>3D Model Rumah Adat Boyang Mandar</h1>
+
+  <div class="model-wrapper">
+    <div class="model-container">
+      <model-viewer
+        id="model"
+        src="assets/model/majene_3d.glb"
+        alt="Model 3D Rumah Adat Boyang Mandar"
+        camera-controls
+        auto-rotate
+        shadow-intensity="1"
+        exposure="1"
+        min-camera-orbit="auto auto 2%"
+        max-camera-orbit="auto auto 150%">
+      </model-viewer>
+    </div>
+
+    <div class="controls">
+      <div class="control-group">
+        <button class="btn-ctrl" onclick="ubahZoom(-10)">➖ Zoom</button>
+        <button class="btn-ctrl" onclick="ubahZoom(10)">➕ Zoom</button>
+      </div>
+
+      <div class="control-group">
+        <button class="btn-ctrl" onclick="putarKamera(-30)">↺</button>
+        <button class="btn-ctrl" onclick="putarKamera(30)">↻</button>
+      </div>
+
+      <button class="btn-ctrl" onclick="resetKamera()" style="background:#da3633">
+        Reset
+      </button>
+    </div>
+  </div>
+
+  <p class="description-text">
+    Rumah Adat Boyang Mandar merupakan rumah tradisional masyarakat Mandar di
+    Kabupaten Majene, Sulawesi Barat. Rumah ini berbentuk panggung dengan struktur
+    kayu yang kokoh dan memiliki pembagian ruang yang mencerminkan nilai sosial,
+    budaya, dan filosofi kehidupan masyarakat Mandar.
+    <br /><br />
+    Melalui visualisasi model 3D ini, pengguna dapat mengamati secara detail bentuk
+    atap pelana, susunan tiang penyangga (Arriang), serta pembagian ruang Boyang
+    seperti Samboyang, Tangnga Boyang, dan Bui’ Boyang. Model ini membantu memahami
+    keterkaitan antara arsitektur tradisional, konsep ruang, serta nilai
+    etnomatematika yang terkandung di dalamnya.
+  </p>
+
+  <footer>© 2025 Etnomatematika Rumah Adat Majene · Tim Pengembang</footer>
+
+  <script>
+    const model = document.querySelector("#model");
+
+    function putarKamera(deg) {
+      const o = model.getCameraOrbit();
+      model.cameraOrbit = `${o.theta + (deg * Math.PI) / 180}rad ${o.phi}rad ${o.radius}m`;
+    }
+
+    function ubahZoom(step) {
+      let fov = model.getFieldOfView() - step;
+      if (fov < 5) fov = 5;
+      if (fov > 70) fov = 70;
+      model.fieldOfView = `${fov}deg`;
+    }
+
+    function resetKamera() {
+      model.cameraOrbit = "auto auto auto";
+      model.cameraTarget = "auto auto auto";
+      model.fieldOfView = "auto";
+    }
+  </script>
+</body>
+</html>
